@@ -8,9 +8,8 @@
 <body>
     <h1>Ingreso de datos</h1>
     <br>
-    <form action="insert">
-        <input type="text" id="nombre" placeholder="Ingrese nombre del producto">
-        <input type="text" id="nombre" placeholder="Ingrese nombre del producto">
+    <form id="form-product">
+        <input type="text" id="id" placeholder="Ingrese nombre del producto">
         <input type="text" id="nombre" placeholder="Ingrese nombre del producto">
         <button type="submit">Agregar productos</button>
     </form>
@@ -37,6 +36,18 @@
       
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const db = dbFirestore(app);
+
+        const productform = document.getElementaryById("form-product");
+        productform.addEventListener("submit",async(e)=>{
+          e.preventDefault();
+          await addDoc(colection(db, "Productos"),{
+            id: productform.id.value,
+            id: productform.nombre.value
+          });
+
+          productform.reset();
+        });
         
       </script>
     
