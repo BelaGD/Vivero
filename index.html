@@ -6,28 +6,123 @@
     <title>Formulario de Plantas</title>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, query, where, getDocs, updateDoc, doc } 
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // Configuración de Firebase
         const firebaseConfig = {
-          apiKey: "AIzaSyBXT5_rxxmtZQV-suARMk2j6cmglHqMirQ",
-          authDomain: "vivero-bela.firebaseapp.com",
-          projectId: "vivero-bela",
-          storageBucket: "vivero-bela.appspot.com",
-          messagingSenderId: "811692436014",
-          appId: "1:811692436014:web:92a44bbb4807fe06f24dbf",
-          measurementId: "G-XEPJ766P6D"
+            apiKey: "AIzaSyBXT5_rxxmtZQV-suARMk2j6cmglHqMirQ",
+            authDomain: "vivero-bela.firebaseapp.com",
+            projectId: "vivero-bela",
+            storageBucket: "vivero-bela.appspot.com",
+            messagingSenderId: "811692436014",
+            appId: "1:811692436014:web:92a44bbb4807fe06f24dbf",
+            measurementId: "G-XEPJ766P6D"
         };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const plantForm = document.getElementById('plantForm');
+            const plantsTable = document.getElementById('plantsTable').getElementsByTagName('tbody')[0];
+
+            plantForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await addDoc(collection(db, "plants"), {
+                    nombre_comun: plantForm.nombre_comun.value,
+                    nombre_cientifico: plantForm.nombre_cientifico.value,
+                    familia: plantForm.familia.value,
+                    tipo_planta: plantForm.tipo_planta.value,
+                    altura_maxima: plantForm.altura_maxima.value,
+                    color_flor: plantForm.color_flor.value,
+                    habitat: plantForm.habitat.value,
+                    requerimiento_luz: plantForm.requerimiento_luz.value,
+                    tipo_suelo: plantForm.tipo_suelo.value,
+                    uso: plantForm.uso.value,
+                });
+                plantForm.reset();
+                loadPlants();
+            });
+
+            async function loadPlants() {
+                plantsTable.innerHTML = '';
+                const querySnapshot = await getDocs(collection(db, "plants"));
+                querySnapshot.forEach((doc) => {
+                    const plant = doc.data();
+                    const row = plantsTable.insertRow();
+                    row.insertCell(0).textContent = plant.nombre_comun;
+                    row.insertCell(1).textContent = plant.nombre_cientifico;
+                    row.insertCell(2).textContent = plant.familia;
+                    row.insertCell(3).textContent = plant.tipo_planta;
+                    row.insertCell(4).textContent = plant.altura_maxima;
+                    row.insertCell(5).textContent = plant.color_flor;
+                    row.insertCell(6).textContent = plant.habitat;
+                    row.insertCell(7).textContent = plant.requerimiento_luz;
+                    row.insertCell(8).textContent = plant.tipo_suelo;
+                    row.insertCell(9).textContent = plant.uso;
+                    const actionsCell = row.insertCell(10);
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Editar';
+                    editButton.onclick = () => editPlant(doc.id, plant);
+                    actionsCell.appendChild(editButton);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.onclick = () => deletePlant(doc.id);
+                    actionsCell.appendChild(deleteButton);
+                });
+            }
+
+            async function editPlant(id, plant) {
+                plantForm.nombre_comun.value = plant.nombre_comun;
+                plantForm.nombre_cientifico.value = plant.nombre_cientifico;
+                plantForm.familia.value = plant.familia;
+                plantForm.tipo_planta.value = plant.tipo_planta;
+                plantForm.altura_maxima.value = plant.altura_maxima;
+                plantForm.color_flor.value = plant.color_flor;
+                plantForm.habitat.value = plant.habitat;
+                plantForm.requerimiento_luz.value = plant.requerimiento_luz;
+                plantForm.tipo_suelo.value = plant.tipo_suelo;
+                plantForm.uso.value = plant.uso;
+
+                plantForm.onsubmit = async (e) => {
+                    e.preventDefault();
+                    await updateDoc(doc(db, "plants", id), {
+                        nombre_comun: plantForm.nombre_comun.value,
+                        nombre_cientifico: plantForm.nombre_cientifico.value,
+                        familia: plantForm.familia.value,
+                        tipo_planta: plantForm.tipo_planta.value,
+                        altura_maxima: plantForm.altura_maxima.value,
+                        color_flor: plantForm.color_flor.value,
+                        habitat: plantForm.habitat.value,
+                        requerimiento_luz: plantForm.requerimiento_luz.value,
+                        tipo_suelo: plantForm.tipo_suelo.value,
+                        uso: plantForm.uso.value,
+                    });
+                    plantForm.reset();
+                    plantForm.onsubmit = addPlant;
+                    loadPlants();
+                };
+            }
+
+            async function deletePlant(id) {
+                await deleteDoc(doc(db, "plants", id));
+                loadPlants();
+            }
+
+            loadPlants();
+        });
+    </script>
       
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
       </script>
-
+      
     <style>
         body {
             font-family: Arial, sans-serif;
