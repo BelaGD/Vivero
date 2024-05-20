@@ -168,45 +168,62 @@
 </head>
 <body>
 
-<div class="container">
-    <h2>Formulario de Plantas</h2>
-    <form>
-        <label for="nombre_comun">Nombre Común</label>
-        <input type="text" id="nombre_comun" name="nombre_comun" required>
-        
-        <label for="nombre_cientifico">Nombre Científico</label>
-        <input type="text" id="nombre_cientifico" name="nombre_cientifico" required>
-        
-        <label for="familia">Familia</label>
-        <input type="text" id="familia" name="familia" required>
-        
-        <label for="tipo_planta">Tipo de Planta</label>
-        <input type="text" id="tipo_planta" name="tipo_planta" required>
-        
-        <label for="altura_maxima">Altura Máxima (metros)</label>
-        <input type="number" id="altura_maxima" name="altura_maxima" required>
-        
-        <label for="color_flor">Color de Flor</label>
-        <input type="text" id="color_flor" name="color_flor" required>
-        
-        <label for="epoca_floracion">Época de Floración</label>
-        <input type="text" id="epoca_floracion" name="epoca_floracion" required>
-        
-        <label for="habitat">Hábitat</label>
-        <input type="text" id="habitat" name="habitat" required>
-        
-        <label for="requerimiento_luz">Requerimiento de Luz</label>
-        <input type="text" id="requerimiento_luz" name="requerimiento_luz" required>
-        
-        <label for="tipo_suelo">Tipo de Suelo</label>
-        <input type="text" id="tipo_suelo" name="tipo_suelo" required>
-        
-        <label for="uso">Uso</label>
-        <input type="text" id="uso" name="uso" required>
-        
-        <input type="submit" value="Enviar">
-    </form>
-</div>
+    <div class="container">
+        <h2>Formulario de Plantas</h2>
+        <form id="plantForm">
+            <label for="nombre_comun">Nombre Común</label>
+            <input type="text" id="nombre_comun" name="nombre_comun" required>
+            
+            <label for="nombre_cientifico">Nombre Científico</label>
+            <input type="text" id="nombre_cientifico" name="nombre_cientifico" required>
+            
+            <label for="familia">Familia</label>
+            <input type="text" id="familia" name="familia" required>
+            
+            <label for="tipo_planta">Tipo de Planta</label>
+            <input type="text" id="tipo_planta" name="tipo_planta" required>
+            
+            <label for="altura_maxima">Altura Máxima (metros)</label>
+            <input type="number" id="altura_maxima" name="altura_maxima" required>
+            
+            <label for="color_flor">Color de Flor</label>
+            <input type="text" id="color_flor" name="color_flor" required>
+            
+            <label for="habitat">Hábitat</label>
+            <input type="text" id="habitat" name="habitat" required>
+            
+            <label for="requerimiento_luz">Requerimiento de Luz</label>
+            <input type="text" id="requerimiento_luz" name="requerimiento_luz" required>
+            
+            <label for="tipo_suelo">Tipo de Suelo</label>
+            <input type="text" id="tipo_suelo" name="tipo_suelo" required>
+            
+            <label for="uso">Uso</label>
+            <input type="text" id="uso" name="uso" required>
+            
+            <input type="submit" value="Enviar">
+        </form>
+    
+        <table id="plantsTable">
+            <thead>
+                <tr>
+                    <th>Nombre Común</th>
+                    <th>Nombre Científico</th>
+                    <th>Familia</th>
+                    <th>Tipo de Planta</th>
+                    <th>Altura Máxima</th>
+                    <th>Color de Flor</th>
+                    <th>Hábitat</th>
+                    <th>Requerimiento de Luz</th>
+                    <th>Tipo de Suelo</th>
+                    <th>Uso</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
 </body>
 </html>
