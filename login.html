@@ -4,58 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Vivero</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .login-container button:hover {
-            background-color: #218838;
-        }
-        .login-container .google-button {
-            background-color: #4285f4;
-            margin-top: 10px;
-        }
-        .login-container .google-button:hover {
-            background-color: #357ae8;
-        }
-    </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <input type="email" id="email" placeholder="Correo electrónico">
-        <input type="password" id="password" placeholder="Contraseña">
-        <button onclick="login()">Iniciar sesión</button>
-        <button class="google-button" onclick="loginWithGoogle()">Iniciar sesión con Google</button>
+    <div>
+        <button id="googleLogin">Iniciar sesión con Google</button>
         <p id="error-message" style="color: red;"></p>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
@@ -76,35 +28,21 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // Función de login con email y contraseña
-        function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            auth.signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    const user = userCredential.user;
-                    alert('Bienvenido ' + user.email);
-                })
-                .catch(error => {
-                    const errorMessage = error.message;
-                    document.getElementById('error-message').innerText = errorMessage;
-                });
-        }
-
-        // Función de login con Google
-        function loginWithGoogle() {
+        document.getElementById('googleLogin').addEventListener('click', () => {
+            console.log("Intentando iniciar sesión con Google");
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider)
                 .then(result => {
+                    console.log("Inicio de sesión exitoso", result);
                     const user = result.user;
                     alert('Bienvenido ' + user.displayName);
                 })
                 .catch(error => {
+                    console.error("Error de inicio de sesión", error);
                     const errorMessage = error.message;
                     document.getElementById('error-message').innerText = errorMessage;
                 });
-        }
+        });
     </script>
 </body>
 </html>
-//
