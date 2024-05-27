@@ -40,6 +40,13 @@
         .login-container button:hover {
             background-color: #218838;
         }
+        .login-container .google-button {
+            background-color: #4285f4;
+            margin-top: 10px;
+        }
+        .login-container .google-button:hover {
+            background-color: #357ae8;
+        }
     </style>
 </head>
 <body>
@@ -48,13 +55,13 @@
         <input type="email" id="email" placeholder="Correo electrónico">
         <input type="password" id="password" placeholder="Contraseña">
         <button onclick="login()">Iniciar sesión</button>
-        <button onclick="loginWithGoogle()">Iniciar sesión con Google</button>
+        <button class="google-button" onclick="loginWithGoogle()">Iniciar sesión con Google</button>
         <p id="error-message" style="color: red;"></p>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script>
-        // Your Firebase configuration
+        // Configuración de Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBXT5_rxxmtZQV-suARMk2j6cmglHqMirQ",
             authDomain: "vivero-bela.firebaseapp.com",
@@ -64,11 +71,12 @@
             appId: "1:811692436014:web:92a44bbb4807fe06f24dbf",
             measurementId: "G-XEPJ766P6D"
         };
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
+        
+        // Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // Login function
+        // Función de login con email y contraseña
         function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -83,7 +91,7 @@
                 });
         }
 
-        // Google login function
+        // Función de login con Google
         function loginWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider)
